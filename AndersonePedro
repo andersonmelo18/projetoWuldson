@@ -1,0 +1,36 @@
+import json
+import datetime
+import os
+
+NOME_ARQUIVO = 'cadastros.json'
+
+def carregar_dados():
+    if os.path.exists(NOME_ARQUIVO):
+        try:
+            with open(NOME_ARQUIVO, 'r', encoding='utf-8') as f:
+                return json.load(f)
+        except json.JSONDecodeError:
+            print(f"Aviso: O arquivo '{NOME_ARQUIVO}' está corrompido ou vazio. Iniciando com lista vazia.")
+            return []
+        except Exception as e:
+            print(f"Erro ao carregar dados de '{NOME_ARQUIVO}': {e}")
+            return []
+    else:
+        return []
+
+def salvar_dados(lista_cadastros):
+
+    try:
+        with open(NOME_ARQUIVO, 'w', encoding='utf-8') as f:
+            json.dump(lista_cadastros, f, ensure_ascii=False, indent=4)
+        print(f"Dados salvos com sucesso em '{NOME_ARQUIVO}'.")
+    except Exception as e:
+        print(f"Erro ao salvar dados em '{NOME_ARQUIVO}': {e}")
+
+def obter_dados_usuario():
+    while True:
+        nome = input("Digite o Nome: ").strip()
+        if nome:
+            break
+        else:
+            print("O nome não pode ficar em branco.")
