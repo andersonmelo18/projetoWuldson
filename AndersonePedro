@@ -34,3 +34,55 @@ def obter_dados_usuario():
             break
         else:
             print("O nome não pode ficar em branco.")
+
+    while True:
+        try:
+            idade_str = input("Digite a Idade: ").strip()
+            idade = int(idade_str)
+            if idade > 0:
+                 break
+            else:
+                 print("Por favor, digite uma idade válida (maior que zero).")
+        except ValueError:
+            print("Entrada inválida. Por favor, digite um número para a idade.")
+
+    while True:
+        email = input("Digite o Email: ").strip()
+        if "@" in email and "." in email.split('@')[1]:
+            break
+        else:
+            print("Formato de email inválido. Tente novamente.")
+
+    data_cadastro = datetime.date.today().isoformat()
+
+    return {
+        "nome": nome,
+        "idade": idade,
+        "email": email,
+        "data_cadastro": data_cadastro
+    }
+
+if __name__ == "__main__":
+    lista_principal_cadastros = carregar_dados()
+    print(f"Carregados {len(lista_principal_cadastros)} registros existentes.")
+
+    while True:
+        print("\n--- Novo Cadastro ---")
+        novo_cadastro = obter_dados_usuario()
+        lista_principal_cadastros.append(novo_cadastro)
+        print("Cadastro adicionado com sucesso!")
+
+        continuar = input("Deseja adicionar outro cadastro? (s/n): ").strip().lower()
+        if continuar != 's':
+            break
+
+    salvar_dados(lista_principal_cadastros)
+
+    print("\n--- Todos os Cadastros ---")
+    if lista_principal_cadastros:
+        for idx, cadastro in enumerate(lista_principal_cadastros):
+             print(f"Registro {idx + 1}: {cadastro}")
+    else:
+        print("Nenhum cadastro realizado.")
+
+    print("\nPrograma finalizado.")
